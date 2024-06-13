@@ -14,6 +14,12 @@ let dragon = {
 
 let players = [knight, dragon];
 
+let attacks = ["heavy", "light"];
+
+let heavy = "";
+
+let heavyFailed = "";
+
 const init = () => {
   document.getElementById("player-pv").innerText = knight.pv;
   document.getElementById("dragon-pv").innerText = dragon.pv;
@@ -79,18 +85,26 @@ const fadeOut = (volume) => {
 const standardTurn = (player, attack) => {
   document.getElementById("light-attack").setAttribute("disabled", "disabled");
   document.getElementById("heavy-attack").setAttribute("disabled", "disabled");
-  setTimeout(() => {
-    document.getElementById("light-attack").removeAttribute("disabled");
-    document.getElementById("heavy-attack").removeAttribute("disabled");
-  }, 3000);
   let damage = Math.floor(Math.random() * 16) + 15;
   if (attack === "heavy") {
+    console.log("heavy" + player);
     const random = Math.floor(Math.random() * 3);
     if (random !== 1) {
+      heavy = " lourde";
       damage = Math.floor(damage * 1.8);
       communTurn(player, damage);
     } else {
-      standardTurn(dragon, "light");
+      heavyFailed = true;
+      document.getElementById("message").innerText =
+        player === knight
+          ? "Cette fois-ci le dragon est plus rapide que vous et en profite pour vous attaquer."
+          : "Vous voyez le dragon préparer son attaque et en profitez pour lui bondire dessus.";
+      setTimeout(() => {
+        standardTurn(
+          players.find((joueur) => joueur !== player),
+          "light"
+        );
+      }, 2500);
     }
   } else {
     communTurn(player, damage);
@@ -104,10 +118,12 @@ const communTurn = (player, damage) => {
     addSoundEffect("./Media/dragon.mp3", 1, 2500);
   }
   let crit = "";
+  let heavyColor = "text-black";
   let classList = "text-black font-bold";
   if (isCrit(player)) {
     damage = Math.floor(damage * player.critDamage);
     crit = " critique";
+    heavyColor = "text-yellow-500";
     classList = "text-yellow-500 font-bold";
   }
   let currentPlayer = "Le <span class='text-red-500'>dragon</span> lance";
@@ -123,7 +139,8 @@ const communTurn = (player, damage) => {
       (document.getElementById("player-pv").innerText = knight.pv));
   document.getElementById(
     "message"
-  ).outerHTML = `<p id="message" class="text-center text-lg mt-4">${currentPlayer} une attaque${crit} qui inflige <span class="${classList}">${damage}</span><i class="fa-solid fa-heart text-red-600 ml-2"></i>.</p>`;
+  ).outerHTML = `<p id="message" class="text-center text-lg mt-4">${currentPlayer} une attaque<span class="font-bold ${heavyColor}">${heavy}</span><span class=${classList}>${crit}</span> qui inflige <span class="${classList}">${damage}</span><i class="fa-solid fa-heart text-red-600 ml-2"></i>.</p>`;
+  heavy = "";
 };
 
 const isCrit = (player) => {
@@ -142,8 +159,12 @@ const startGame = () => {
       : "Vous avez tout juste le temps de vous retourner pour apercevoir une énorme patte s'abattre dans votre direction.";
   document.getElementById("begin").classList.add("hidden");
   if (firstPlayer !== knight) {
-    standardTurn(dragon);
+    standardTurn(dragon, "light");
     addSoundEffect("./Media/dragon.mp3", 0.8, 2500);
+    setTimeout(() => {
+      document.getElementById("light-attack").removeAttribute("disabled");
+      document.getElementById("heavy-attack").removeAttribute("disabled");
+    }, 2500);
   }
   document.getElementById("light-attack").classList.remove("hidden");
   document.getElementById("heavy-attack").classList.remove("hidden");
@@ -184,21 +205,31 @@ const displayVictory = () => {
     : "";
 };
 
-const victoryCondition=()=>{
-    document.getElementById("game-state").classList.contains("hidden")
+const victoryCondition = () => {
+  document.getElementById("game-state").classList.contains("hidden")
     ? ""
     : document.getElementById("game-state").classList.add("hidden");
-    if (players[0].pv === 0 || players[1].pv === 0) {
+  if (players[0].pv === 0 || players[1].pv === 0) {
+    displayVictory();
+  } else {
+    let timer;
+    timer = heavyFailed === true ? 6000 : 3000;
+    heavyFailed = "";
+    setTimeout(() => {
+      standardTurn(
+        dragon,
+        Math.floor(Math.random() * 3) === 2 ? "heavy" : "light"
+      );
+      setTimeout(() => {
+        document.getElementById("light-attack").removeAttribute("disabled");
+        document.getElementById("heavy-attack").removeAttribute("disabled");
+      }, timer);
+      if (players[0].pv === 0 || players[1].pv === 0) {
         displayVictory();
-      } else {
-        setTimeout(() => {
-          standardTurn(dragon, "light");
-          if (players[0].pv === 0 || players[1].pv === 0) {
-            displayVictory();
-          }
-        }, 3000);
       }
-}
+    }, timer);
+  }
+};
 
 document.addEventListener("DOMContentLoaded", init);
 document.getElementById("begin").addEventListener("click", () => {
@@ -206,11 +237,11 @@ document.getElementById("begin").addEventListener("click", () => {
 });
 document.getElementById("light-attack").addEventListener("click", () => {
   standardTurn(knight, "light");
-  victoryCondition()
+  victoryCondition();
 });
 document.getElementById("heavy-attack").addEventListener("click", () => {
   standardTurn(knight, "heavy");
-  victoryCondition()
+  victoryCondition();
 });
 
 document.getElementById("heavy-attack").addEventListener("mouseover", () => {
