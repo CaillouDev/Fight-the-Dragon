@@ -11,6 +11,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <link rel="icon" href="./Media/favicon.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <title>Fight the Dragon !</title>
   </head>
@@ -18,7 +19,7 @@
     <div class="bg-[url('./Media/background.jpg')] bg-cover w-full flex">
     <div id="game-screen" class="my-auto mx-auto bg-slate-100/85 p-10">
       <div class="w-fit mx-auto text-center">
-        <p id="game-state" class="w-fit text-xl mb-10"></p>
+        <p id="game-state" class="text-xl mb-10 text-center"></p>
         <button
           id="begin"
           class="bg-gray-400 p-2 rounded-lg text-white font-bold"
@@ -37,16 +38,17 @@
         >
           Attaque lourde
         </button>
+        <p id="attack-info" class="invisible mt-4"></p>
       </div>
       <div id="cards" class="flex justify-center text-center font-bold text-xl">
-        <div id="player-card">
+        <div id="player-card" class="invisible">
           <img src="./Media/Knight.png" alt="Image de chevalier" />
           <div id="knight-pv-info">
             <p id="player-pv" class="inline"></p>
             <i class="fa-solid fa-heart text-red-600 ml-2"></i>
           </div>
         </div>
-        <div id="dragon-card">
+        <div id="dragon-card" class="invisible">
           <img src="./Media/Dragon.png" alt="Image d'un dragon" />
           <div id="dragon-pv-info">
             <p id="dragon-pv" class="inline"></p>
