@@ -70,13 +70,13 @@ const startGame = () => {
   document.getElementById("begin").classList.add("hidden");
   if (firstPlayer !== knight) {
     standardTurn(dragon);
-    addSoundEffect("./Media/dragon.mp3", 1,2500);
+    addSoundEffect("./Media/dragon.mp3", 1, 2500);
   }
   document.getElementById("light-attack").classList.remove("hidden");
   document.getElementById("heavy-attack").classList.remove("hidden");
 };
 
-const addSoundEffect = (sound, volume,timer) => {
+const addSoundEffect = (sound, volume, timer) => {
   const soundEffect = document.createElement("audio");
   soundEffect.src = sound;
   soundEffect.volume = volume;
@@ -95,7 +95,7 @@ document.getElementById("light-attack").addEventListener("click", () => {
     ? ""
     : document.getElementById("game-state").classList.add("hidden");
   standardTurn(knight);
-  addSoundEffect("./Media/sword.mp3", 1,2500);
+  addSoundEffect("./Media/sword.mp3", 1, 2500);
   console.log(players);
   if (players[0].pv === 0 || players[1].pv === 0) {
     document.getElementById("light-attack").classList.add("hidden");
@@ -106,20 +106,22 @@ document.getElementById("light-attack").addEventListener("click", () => {
     document.getElementById("game-state").classList.add("font-bold");
     if (document.getElementById("game-state").innerText === "Victoire") {
       document.getElementById("game-state").classList.add("text-green-500");
-      addSoundEffect("./Media/victory.mp3", 1,7000);
+      setTimeout(() => {
+        addSoundEffect("./Media/victory.mp3", 1, 7000);
+      }, 1000);
     } else {
       document.getElementById("game-state").classList.add("text-red-500");
+      setTimeout(() => {
+        addSoundEffect("./Media/defeat.mp3", 1, 7000);
+      }, 1000);
     }
-    // document.getElementById("game-state").innerText === "Victoire"
-    //   ? document.getElementById("game-state").classList.add("text-green-500")
-    //   : document.getElementById("game-state").classList.add("text-red-500");
     document.getElementById("game-state").classList.contains("hidden")
       ? document.getElementById("game-state").classList.remove("hidden")
       : "";
   } else {
     setTimeout(() => {
       standardTurn(dragon);
-      addSoundEffect("./Media/dragon.mp3", 1,2500);
+      addSoundEffect("./Media/dragon.mp3", 1, 2500);
     }, 3000);
   }
 });
