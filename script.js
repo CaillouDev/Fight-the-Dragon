@@ -32,7 +32,7 @@ const script = () => {
   switch (i) {
     case 0:
       gameMessage.innerText =
-        "La quiétude habituelle du Royaume est troublé par des rumeurs au sujet d'une étrange caverne.\nD'aucun prétendent entendre de longs grognements en émaner.";
+        "La quiétude habituelle du Royaume est troublée par des rumeurs au sujet d'une étrange caverne.\nD'aucuns prétendent entendre de longs grognements en émaner.";
       nextBtn.innerText = "Sottises que cela !";
       const soundHome = document.createElement("audio");
       soundHome.id = "soundHome";
@@ -82,7 +82,7 @@ const fadeOut = (volume) => {
   }, 5000);
 };
 
-const standardTurn = (player, attack) => {
+const standardTurn = async (player, attack) => {
   document.getElementById("light-attack").setAttribute("disabled", "disabled");
   document.getElementById("heavy-attack").setAttribute("disabled", "disabled");
   let damage = Math.floor(Math.random() * 16) + 15;
@@ -107,7 +107,9 @@ const standardTurn = (player, attack) => {
       }, 2500);
     }
   } else {
-    communTurn(player, damage);
+    if (players[0].pv !== 0 || players[1].pv !== 0) {
+      communTurn(player, damage);
+    }
   }
 };
 
@@ -238,10 +240,16 @@ document.getElementById("begin").addEventListener("click", () => {
 document.getElementById("light-attack").addEventListener("click", () => {
   standardTurn(knight, "light");
   victoryCondition();
+  if (players[0].pv === 0 || players[1].pv === 0) {
+    displayVictory();
+  }
 });
 document.getElementById("heavy-attack").addEventListener("click", () => {
   standardTurn(knight, "heavy");
   victoryCondition();
+  if (players[0].pv === 0 || players[1].pv === 0) {
+    displayVictory();
+  }
 });
 
 document.getElementById("heavy-attack").addEventListener("mouseover", () => {
