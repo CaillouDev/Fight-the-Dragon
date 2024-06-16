@@ -98,9 +98,9 @@ const script = () => {
       i++;
       break;
     case 3:
-      if(matchMedia("(pointer:not(:fine))").matches){
-        document.getElementById("light-info-mobile").style.display="block"
-        document.getElementById("heavy-info-mobile").style.display="block"
+      if (matchMedia("(pointer:not(:fine))").matches) {
+        document.getElementById("light-info-mobile").style.display = "block";
+        document.getElementById("heavy-info-mobile").style.display = "block";
       }
       gameMessage.innerText =
         "Après quelques pas, vous sentez un souffle chaud sur votre nuque et une forte odeur de souffre monte jusqu'à vos narines.";
@@ -277,7 +277,33 @@ const victoryCondition = () => {
   }
 };
 
-document.addEventListener("DOMContentLoaded", init);
+document.addEventListener("DOMContentLoaded", () => {
+  init();
+  if (!matchMedia("(pointer:fine)").matches) {
+    const lightInfoMobile = document.createElement("p");
+    lightInfoMobile.id = "light-info-mobile";
+    lightInfoMobile.innerText =
+      "L'attaque légère est l'attaque de base. Ses dégats sont compris entre 15 et 30. Un coup critique est possible.";
+    lightInfoMobile.style.display = "none";
+    document
+      .getElementById("light-attack")
+      .insertAdjacentElement("afterend", lightInfoMobile);
+    document
+      .getElementById("light-attack")
+      .insertAdjacentElement(
+        "afterend",
+        document.getElementById("attack-info")
+      );
+    const heavyInfoMobile = document.createElement("p");
+    heavyInfoMobile.id = "heavy-info-mobile";
+    heavyInfoMobile.innerText =
+      "L'attaque lourde offre la possibilité de doubler les dégâts. Il est toutefois possible que l'ennemi ait le temps d'attaquer avant même que votre attaque ne touche ...";
+    heavyInfoMobile.style.display = "none";
+    document
+      .getElementById("heavy-attack")
+      .insertAdjacentElement("afterend", heavyInfoMobile);
+  }
+});
 document.getElementById("begin").addEventListener("click", () => {
   script();
 });
@@ -307,26 +333,6 @@ if (matchMedia("(pointer:fine)").matches) {
       "L'attaque légère est l'attaque de base. Ses dégats sont compris entre 15 et 30. Un coup critique est possible.";
     document.getElementById("attack-info").style.visibility = "visible";
   });
-} else {
-  const lightInfoMobile = document.createElement("p");
-  lightInfoMobile.id="light-info-mobile"
-  lightInfoMobile.innerText =
-    "L'attaque légère est l'attaque de base. Ses dégats sont compris entre 15 et 30. Un coup critique est possible.";
-    lightInfoMobile.style.display="none"
-    document
-    .getElementById("light-attack")
-    .insertAdjacentElement("afterend", lightInfoMobile);
-  document
-    .getElementById("light-attack")
-    .insertAdjacentElement("afterend", document.getElementById("attack-info"));
-  const heavyInfoMobile = document.createElement("p");
-  heavyInfoMobile.id="heavy-info-mobile"
-  heavyInfoMobile.innerText =
-    "L'attaque lourde offre la possibilité de doubler les dégâts. Il est toutefois possible que l'ennemi ait le temps d'attaquer avant même que votre attaque ne touche ...";
-    heavyInfoMobile.style.display="none"
-    document
-    .getElementById("heavy-attack")
-    .insertAdjacentElement("afterend", heavyInfoMobile);
 }
 
 document.getElementById("heavy-attack").addEventListener("mouseout", () => {
