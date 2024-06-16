@@ -63,6 +63,30 @@ let heavyFailed = "";
 const init = () => {
   document.getElementById("player-pv").innerText = knight.pv;
   document.getElementById("dragon-pv").innerText = dragon.pv;
+  if (!matchMedia("(pointer:fine)").matches) {
+    const lightInfoMobile = document.createElement("p");
+    lightInfoMobile.id = "light-info-mobile";
+    lightInfoMobile.innerText =
+      "L'attaque légère est l'attaque de base. Ses dégats sont compris entre 15 et 30. Un coup critique est possible.";
+    lightInfoMobile.style.display = "none";
+    document
+      .getElementById("light-attack")
+      .insertAdjacentElement("afterend", lightInfoMobile);
+    document
+      .getElementById("light-attack")
+      .insertAdjacentElement(
+        "afterend",
+        document.getElementById("attack-info")
+      );
+    const heavyInfoMobile = document.createElement("p");
+    heavyInfoMobile.id = "heavy-info-mobile";
+    heavyInfoMobile.innerText =
+      "L'attaque lourde offre la possibilité de doubler les dégâts. Il est toutefois possible que l'ennemi ait le temps d'attaquer avant même que votre attaque ne touche ...";
+    heavyInfoMobile.style.display = "none";
+    document
+      .getElementById("heavy-attack")
+      .insertAdjacentElement("afterend", heavyInfoMobile);
+  }
 };
 
 let i = 0;
@@ -279,30 +303,6 @@ const victoryCondition = () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   init();
-  if (!matchMedia("(pointer:fine)").matches) {
-    const lightInfoMobile = document.createElement("p");
-    lightInfoMobile.id = "light-info-mobile";
-    lightInfoMobile.innerText =
-      "L'attaque légère est l'attaque de base. Ses dégats sont compris entre 15 et 30. Un coup critique est possible.";
-    lightInfoMobile.style.display = "none";
-    document
-      .getElementById("light-attack")
-      .insertAdjacentElement("afterend", lightInfoMobile);
-    document
-      .getElementById("light-attack")
-      .insertAdjacentElement(
-        "afterend",
-        document.getElementById("attack-info")
-      );
-    const heavyInfoMobile = document.createElement("p");
-    heavyInfoMobile.id = "heavy-info-mobile";
-    heavyInfoMobile.innerText =
-      "L'attaque lourde offre la possibilité de doubler les dégâts. Il est toutefois possible que l'ennemi ait le temps d'attaquer avant même que votre attaque ne touche ...";
-    heavyInfoMobile.style.display = "none";
-    document
-      .getElementById("heavy-attack")
-      .insertAdjacentElement("afterend", heavyInfoMobile);
-  }
 });
 document.getElementById("begin").addEventListener("click", () => {
   script();
