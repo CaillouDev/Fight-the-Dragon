@@ -312,7 +312,7 @@ if (matchMedia("(pointer:fine)").matches) {
   lightInfoMobile.id="light-info-mobile"
   lightInfoMobile.innerText =
     "L'attaque légère est l'attaque de base. Ses dégats sont compris entre 15 et 30. Un coup critique est possible.";
-    lightInfoMobile.style.display="hidden"
+    lightInfoMobile.style.display="none"
     document
     .getElementById("light-attack")
     .insertAdjacentElement("afterend", lightInfoMobile);
@@ -323,7 +323,7 @@ if (matchMedia("(pointer:fine)").matches) {
   heavyInfoMobile.id="heavy-info-mobile"
   heavyInfoMobile.innerText =
     "L'attaque lourde offre la possibilité de doubler les dégâts. Il est toutefois possible que l'ennemi ait le temps d'attaquer avant même que votre attaque ne touche ...";
-    heavyInfoMobile.style.display="hidden"
+    heavyInfoMobile.style.display="none"
     document
     .getElementById("heavy-attack")
     .insertAdjacentElement("afterend", heavyInfoMobile);
