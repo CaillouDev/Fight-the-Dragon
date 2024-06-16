@@ -12,6 +12,46 @@ let dragon = {
   critDamage: 1.2,
 };
 
+let archer = {
+  name: "archer",
+  pv: 80,
+  critChance: 0.4,
+  critDamage: 1.2,
+};
+
+let peasant = {
+  name: "peasant",
+  pv: 70,
+  critChance: 0.1,
+  critDamage: 1.2,
+};
+
+let classes = [
+  {
+    name: "knight",
+    pv: 100,
+    critChance: 0.2,
+    critDamage: 1.2,
+  },
+  {
+    name: "archer",
+    pv: 80,
+    critChance: 0.4,
+    critDamage: 1.2,
+  },
+  {
+    name: "peasant",
+    pv: 70,
+    critChance: 0.1,
+    critDamage: 1.2,
+  },
+];
+
+let weapons = [
+  { name: "sword", baseDamage: 15, critDamage: 1.2 },
+  { name: "dagger", baseDamage: 10, critDamage: 1.4 },
+];
+
 let players = [knight, dragon];
 
 let attacks = ["heavy", "light"];
@@ -252,20 +292,33 @@ document.getElementById("heavy-attack").addEventListener("click", () => {
   }
 });
 
-document.getElementById("heavy-attack").addEventListener("mouseover", () => {
+if (matchMedia("(pointer:fine)").matches) {
+  document.getElementById("heavy-attack").addEventListener("mouseover", () => {
+    document.getElementById("attack-info").innerText =
+      "L'attaque lourde offre la possibilité de doubler les dégâts. Il est toutefois possible que l'ennemi ait le temps d'attaquer avant même que votre attaque ne touche ...";
+    document.getElementById("attack-info").style.visibility = "visible";
+  });
+  document.getElementById("light-attack").addEventListener("mouseover", () => {
+    document.getElementById("attack-info").innerText =
+      "L'attaque légère est l'attaque de base. Ses dégats sont compris entre 15 et 30. Un coup critique est possible.";
+    document.getElementById("attack-info").style.visibility = "visible";
+  });
+} else {
   document.getElementById("attack-info").innerText =
+    "L'attaque légère est l'attaque de base. Ses dégats sont compris entre 15 et 30. Un coup critique est possible.";
+  document
+    .getElementById("light-attack")
+    .insertAdjacentElement("afterend", document.getElementById("attack-info"));
+  const heavyInfo = document.createElement("p");
+  heavyInfo.innerText =
     "L'attaque lourde offre la possibilité de doubler les dégâts. Il est toutefois possible que l'ennemi ait le temps d'attaquer avant même que votre attaque ne touche ...";
-  document.getElementById("attack-info").style.visibility = "visible";
-});
+  document
+    .getElementById("heavy-attack")
+    .insertAdjacentElement("afterend", heavyInfo);
+}
 
 document.getElementById("heavy-attack").addEventListener("mouseout", () => {
   document.getElementById("attack-info").style.visibility = "hidden";
-});
-
-document.getElementById("light-attack").addEventListener("mouseover", () => {
-  document.getElementById("attack-info").innerText =
-    "L'attaque légère est l'attaque de base. Ses dégats sont compris entre 15 et 30. Un coup critique est possible.";
-  document.getElementById("attack-info").style.visibility = "visible";
 });
 
 document.getElementById("light-attack").addEventListener("mouseout", () => {
