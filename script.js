@@ -67,7 +67,7 @@ const init = () => {
     const lightInfoMobile = document.createElement("p");
     lightInfoMobile.id = "light-info-mobile";
     lightInfoMobile.innerText =
-      "L'attaque légère est l'attaque de base. Ses dégats sont compris entre 15 et 30. Un coup critique est possible.";
+      "15 à 30 dégâts\nUn coup critique est possible.";
     lightInfoMobile.style.display = "none";
     document
       .getElementById("light-attack")
@@ -81,7 +81,7 @@ const init = () => {
     const heavyInfoMobile = document.createElement("p");
     heavyInfoMobile.id = "heavy-info-mobile";
     heavyInfoMobile.innerText =
-      "L'attaque lourde offre la possibilité de doubler les dégâts. Il est toutefois possible que l'ennemi ait le temps d'attaquer avant même que votre attaque ne touche ...";
+      "Quitte ou double :\ndégats x2 ou contre-attaque ennemie";
     heavyInfoMobile.style.display = "none";
     document
       .getElementById("heavy-attack")
@@ -122,10 +122,10 @@ const script = () => {
       i++;
       break;
     case 3:
-      if (matchMedia("(pointer:not(:fine))").matches) {
-        document.getElementById("light-info-mobile").style.display = "block";
-        document.getElementById("heavy-info-mobile").style.display = "block";
-      }
+      // if (matchMedia("(pointer:not(:fine))").matches) {
+      //   document.getElementById("light-info-mobile").style.display = "block";
+      //   document.getElementById("heavy-info-mobile").style.display = "block";
+      // }
       gameMessage.innerText =
         "Après quelques pas, vous sentez un souffle chaud sur votre nuque et une forte odeur de souffre monte jusqu'à vos narines.";
       nextBtn.innerText = "S'arrêter brusquement";
